@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_installment_schedule" model="ir.actions.report">
+        <field name="name">Installment Schedule</field>
+        <field name="model">loan.loan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">loan_management_system.report_installment_schedule</field>
+        <field name="report_file">loan_management_system.report_installment_schedule</field>
+        <field name="print_report_name">'Installment Schedule - %s' % (object.name)</field>
+    </record>
+    <template id="report_installment_schedule">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Installment Schedule</h2>
+
+                        <p>
+                            <strong>Loan:</strong>
+                            <t t-out="doc.name" />
+                        </p>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Due Date</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.installment_ids" t-as="line">
+                                    <td>
+                                        <t t-out="line.sequence" />
+                                    </td>
+                                    <td>
+                                        <t t-out="line.due_date" />
+                                    </td>
+                                    <td>
+                                        <t t-out="line.amount_due" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

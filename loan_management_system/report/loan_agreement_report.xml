@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_loan_agreement" model="ir.actions.report">
+        <field name="name">Loan Agreement</field>
+        <field name="model">loan.loan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">loan_management_system.report_loan_agreement_template</field>
+        <field name="report_file">loan_management_system.report_loan_agreement_template</field>
+        <field name="print_report_name">'Loan Agreement - %s' % (object.name)</field>
+    </record>
+
+    <template id="report_loan_agreement_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <!-- 🔥 HEADER -->
+                        <div style="text-align:center; margin-bottom:25px;">
+                            <h1 style="margin:0; color:#1e3a8a;">LOAN AGREEMENT</h1>
+                            <p style="font-size:12px; color:#6b7280;">
+                                This agreement outlines the terms and conditions of the loan
+                            </p>
+                        </div>
+
+                        <!-- 🔥 BASIC DETAILS CARD -->
+                        <div
+                            style="border:1px solid #e5e7eb; border-radius:12px; padding:15px; margin-bottom:20px;">
+                            <table style="width:100%; font-size:13px;">
+                                <tr>
+                                    <td>
+                                        <strong>Loan Number:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.name" />
+                                    </td>
+                                    <td>
+                                        <strong>Loan Type:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.loan_type_id.name" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Borrower:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.partner_id.name" />
+                                    </td>
+                                    <td>
+                                        <strong>Principal:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.principal_amount" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Interest Rate:</strong>
+                                    </td>
+                                    <td><span t-field="o.interest_rate" />%</td>
+                                    <td>
+                                        <strong>Term:</strong>
+                                    </td>
+                                    <td><span t-field="o.term_months" /> months</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>First Due Date:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.first_due_date" />
+                                    </td>
+                                    <td>
+                                        <strong>Disbursed Amount:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.disbursed_amount" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- 🔥 AGREEMENT CONTENT -->
+                        <div style="margin-bottom:25px; font-size:13px; line-height:1.6;">
+                            <h3
+                                style="color:#374151; border-bottom:1px solid #e5e7eb; padding-bottom:5px;">
+                                Terms and Conditions
+                            </h3>
+
+                            <div t-if="o.agreement_html" t-out="o.agreement_html" />
+
+                            <div t-if="not o.agreement_html">
+                                <p>
+                                    The borrower agrees to repay the loan amount along with
+                                    applicable
+                                    interest as per the agreed schedule. Any delay in payment may
+                                    attract
+                                    penalties as per company policy.
+                                </p>
+                                <p>
+                                    The lender reserves the right to take necessary action in case
+                                    of
+                                    default. All disputes shall be subject to jurisdiction.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 🔥 SUMMARY BOX -->
+                        <div
+                            style="border:1px dashed #9ca3af; padding:12px; border-radius:10px; margin-bottom:30px;">
+                            <p>
+                                <strong>Total Payable Amount:</strong>
+                                <span t-field="o.total_amount" />
+                            </p>
+                            <p>
+                                <strong>Outstanding Amount:</strong>
+                                <span t-field="o.outstanding_amount" />
+                            </p>
+                        </div>
+
+                        <!-- 🔥 SIGNATURE SECTION -->
+                        <table style="width:100%; margin-top:40px; text-align:center;">
+                            <tr>
+                                <td>
+                                    <div
+                                        style="border-top:1px solid #000; width:200px; margin:auto;"></div>
+                                    <p style="margin-top:5px;">Borrower Signature</p>
+                                </td>
+                                <td>
+                                    <div
+                                        style="border-top:1px solid #000; width:200px; margin:auto;"></div>
+                                    <p style="margin-top:5px;">Authorized Signatory</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-top:15px;">
+                                    Date: __________________
+                                </td>
+                                <td style="padding-top:15px;">
+                                    Date: __________________
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

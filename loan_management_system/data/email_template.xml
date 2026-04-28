@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="email_template_loan_manager_notify" model="mail.template">
+        <field name="name">Loan Submitted Notification</field>
+        <field name="model_id" ref="loan_management_system.model_loan_loan" />
+
+        <!-- SUBJECT -->
+        <field name="subject">
+            New Loan Submitted:
+            {{ object.name or 'Loan' }}
+        </field>
+
+        <!-- SENDER -->
+        <field name="email_from">
+            {{ user.email }}
+        </field>
+
+        <!-- RECEIVER -->
+        <field name="email_to">
+            {{ object.user_id.email }}
+        </field>
+
+        <!-- BODY -->
+        <field name="body_html" type="html">
+            <div style="font-family: Arial; font-size:14px;">
+
+                <p> Hello <t t-out="object.user_id.name or 'Manager'" />
+                </p>
+
+                <p>
+                    A new loan application has been submitted and requires your approval.
+                </p>
+
+                <p>
+                    <strong>Loan No:</strong>
+                    <t t-out="object.name or ''" />
+                    <br />
+
+                    <strong>Customer:</strong>
+                    <t t-out="object.partner_id.name or ''" />
+                    <br />
+
+                    <strong>Amount:</strong>
+                    <t t-out="object.principal_amount or 0" />
+                    <br />
+
+                    <strong>Date:</strong>
+                    <t t-out="object.application_date or ''" />
+                </p>
+
+                <p>
+                    Please review and approve the loan from the system.
+                </p>
+
+                <br />
+
+                <p> Regards,<br />
+                    <strong>Loan Management System</strong>
+                </p>
+
+                <p style="margin:20px 0;">
+                    <a
+                        t-att-href="'%s/web#id=%s&amp;model=loan.loan&amp;view_type=form' % (object.get_base_url(), object.id)"
+                        style="background-color:#875A7B;
+                      color:#ffffff;
+                      padding:10px 18px;
+                      text-decoration:none;
+                      border-radius:5px;
+                      font-weight:bold;">
+                        View Loan
+                    </a>
+                </p>
+
+            </div>
+
+        </field>
+
+        <field name="auto_delete" eval="True" />
+    </record>
+
+    <record id="email_template_loan_approved" model="mail.template">
+        <field name="name">Loan Approved Notification</field>
+        <field name="model_id" ref="loan_management_system.model_loan_loan" />
+
+        <!-- SUBJECT -->
+        <field name="subject">
+            Loan Approved:
+            {{ object.name or 'Loan' }}
+        </field>
+
+        <!-- SENDER -->
+        <field name="email_from">
+            {{ user.email }}
+        </field>
+
+        <!-- RECEIVER (Customer) -->
+        <field name="email_to">
+            {{ object.partner_id.email }}
+        </field>
+
+        <!-- BODY -->
+        <field name="body_html" type="html">
+            <div style="font-family: Arial; font-size:14px;">
+
+                <p> Hello <t t-out="object.partner_id.name or 'Customer'" />
+                </p>
+
+                <p> We are pleased to inform you that your loan application has been <strong
+                        style="color:green;">APPROVED</strong>. </p>
+
+                <p>
+                    <strong>Loan No:</strong>
+                    <t t-out="object.name or ''" />
+                    <br />
+
+                    <strong>Amount:</strong>
+                    <t t-out="object.principal_amount or 0" />
+                    <br />
+
+                    <strong>Approval Date:</strong>
+                    <t t-out="object.approval_date or ''" />
+                </p>
+
+                <!-- <p>
+                    Our team will proceed with the disbursement process shortly.
+                </p> -->
+
+                <br />
+
+                <p> Regards,<br />
+                    <strong>Loan Management System</strong>
+                </p>
+
+                <!-- VIEW LOAN BUTTON -->
+                <p style="margin:20px 0;">
+                    <a
+                        t-att-href="'%s/web#id=%s&amp;model=loan.loan&amp;view_type=form' % (object.get_base_url(), object.id)"
+                        style="background-color:#875A7B;
+                              color:#ffffff;
+                              padding:10px 18px;
+                              text-decoration:none;
+                              border-radius:5px;
+                              font-weight:bold;">
+                        View Loan
+                    </a>
+                </p>
+
+            </div>
+        </field>
+
+        <field name="auto_delete" eval="True" />
+    </record>
+
+    <record id="email_template_loan_schedule_generated" model="mail.template">
+        <field name="name">Loan Installment Schedule Generated</field>
+        <field name="model_id" ref="loan_management_system.model_loan_loan" />
+
+        <!-- SUBJECT -->
+        <field name="subject">
+            Installment Schedule Generated - {{ object.name }}
+        </field>
+
+        <!-- SENDER -->
+        <field name="email_from">
+            {{ user.email }}
+        </field>
+
+        <!-- RECEIVER -->
+        <field name="email_to">
+            {{ object.partner_id.email }}
+        </field>
+
+        <!-- BODY -->
+        <field name="body_html" type="html">
+            <div style="font-family: Arial; font-size:14px;">
+
+                <!-- <p>Hello <strong>{{ object.partner_id.name }}</strong>,</p> -->
+                <p>Hello <strong>
+                        <t t-out="object.partner_id.name" />
+                    </strong>,</p>
+
+                <p>Your loan installment schedule has been successfully generated.</p>
+
+                <p>
+                    <!-- <strong>Loan Number:</strong> {{ object.name }} <br/> -->
+                <strong>Loan Number:</strong><t t-out="object.name" />
+                <strong>Loan Amount:</strong>
+                    ₹ <t t-out="object.principal_amount or 0" /> <br />
+                <strong>Total Installments:</strong><t
+                        t-out="object.installment_count" />  <br />
+
+                <strong>Installment Amount:</strong><t
+                        t-out="object.total_amount" />
+                </p>
+
+                <br />
+
+                <h4>Installment Details:</h4>
+
+                <table border="1" cellpadding="6" cellspacing="0" width="100%"
+                    style="border-collapse:collapse;">
+                    <tr style="background-color:#f2f2f2;">
+                        <th>#</th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+
+
+                    <!-- yeh comment kra hai dekhne -->
+
+                    <!-- % for line in object.installment_line_ids:
+                <tr>
+                    <td>{{ line.sequence }}</td>
+                    <td>{{ line.due_date }}</td>
+                    <td>₹ {{ line.amount }}</td>
+                    <td>{{ line.state }}</td>
+                </tr>
+                % endfor -->
+
+                    <t t-foreach="object.installment_ids" t-as="line">
+                        <tr>
+                            <td>
+                                <t t-out="line.sequence" />
+                            </td>
+                            <td>
+                                <t t-out="line.due_date" />
+                            </td>
+                            <!-- <td>₹ <t t-out="line.amount"/></td> -->
+                            <td>₹ <t t-out="line.amount_due or 0" /></td>
+                            <td>
+                                <t t-out="line.state" />
+                            </td>
+                        </tr>
+                    </t>
+
+                </table>
+
+
+                <br />
+
+                <p>Please ensure timely payment of your installments.</p>
+
+                <br />
+
+                <p>
+                    Our team will proceed with the disbursement process shortly.
+                </p>
+
+                <p>Regards,<br />
+            <strong>Loan Management System</strong></p>
+
+            </div>
+        </field>
+
+        <field name="auto_delete" eval="True" />
+    </record>
+
+
+    <record id="email_template_loan_disbursed" model="mail.template">
+        <field name="name">Loan Disbursed Notification</field>
+        <field name="model_id" ref="loan_management_system.model_loan_loan" />
+
+        <!-- SUBJECT -->
+        <field name="subject">
+            Loan Disbursed:
+            {{ object.name or 'Loan' }}
+        </field>
+
+        <!-- SENDER -->
+        <field name="email_from">
+            {{ user.email }}
+        </field>
+
+        <!-- RECEIVER (Customer) -->
+        <field name="email_to">
+            {{ object.partner_id.email }}
+        </field>
+
+        <!-- BODY -->
+        <field name="body_html" type="html">
+            <div style="font-family: Arial; font-size:14px;">
+
+                <p> Hello <t t-out="object.partner_id.name or 'Customer'" />
+                </p>
+
+                <p> We are pleased to inform you that your loan application has been <strong
+                        style="color:green;">DISBURSED</strong>. </p>
+
+                <p>
+                    <strong>Loan No:</strong>
+                    <t t-out="object.name or ''" />
+                    <br />
+
+                    <strong>Amount:</strong>
+                    <t t-out="object.principal_amount or 0" />
+                    <br />
+
+                    <strong>Disbursed Date:</strong>
+                    <t t-out="object.approval_date or ''" />
+                </p>
+
+                <!-- <p>
+                    Our team will proceed with the disbursement process shortly.
+                </p> -->
+
+                <br />
+
+                <p> Regards,<br />
+                    <strong>Loan Management System</strong>
+                </p>
+
+                <!-- VIEW LOAN BUTTON -->
+                <p style="margin:20px 0;">
+                    <a
+                        t-att-href="'%s/web#id=%s&amp;model=loan.loan&amp;view_type=form' % (object.get_base_url(), object.id)"
+                        style="background-color:#875A7B;
+                              color:#ffffff;
+                              padding:10px 18px;
+                              text-decoration:none;
+                              border-radius:5px;
+                              font-weight:bold;">
+                        View Loan
+                    </a>
+                </p>
+
+            </div>
+        </field>
+
+        <field name="auto_delete" eval="True" />
+    </record>
+
+</odoo>

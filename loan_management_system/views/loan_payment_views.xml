@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List view: only original fields to avoid upgrade-order issues -->
+    <record id="view_loan_payment_list" model="ir.ui.view">
+        <field name="name">loan.payment.list</field>
+        <field name="model">loan.payment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="loan_id"/>
+                <field name="installment_id"/>
+                <field name="payment_date"/>
+                <field name="journal_id"/>
+                <field name="amount"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view: all fields including new portal fields -->
+    <record id="view_loan_payment_form" model="ir.ui.view">
+        <field name="name">loan.payment.form</field>
+        <field name="model">loan.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(action_report_loan_payment)d"
+                        string="Print Receipt"
+                        type="action"
+                        class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Payment Details">
+                            <field name="loan_id"/>
+                            <field name="installment_id"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="payment_date"/>
+                            <field name="source" readonly="1"/>
+                        </group>
+                        <group string="Transaction Info">
+                            <field name="payment_method"/>
+                            <field name="transaction_ref"/>
+                            <field name="journal_id"/>
+                            <field name="amount"/>
+                        </group>
+                    </group>
+                    <group string="Component Breakdown">
+                        <group>
+                            <field name="principal_component"/>
+                            <field name="interest_component"/>
+                        </group>
+                        <group>
+                            <field name="fee_component"/>
+                            <field name="penalty_component"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Notes…"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_loan_payment" model="ir.actions.act_window">
+        <field name="name">Loan Payments</field>
+        <field name="res_model">loan.payment</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+    </record>
+</odoo>

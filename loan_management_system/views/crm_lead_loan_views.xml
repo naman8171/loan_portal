@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_crm_lead_form_inherit_loan_request" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit.loan.request</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_loan_requests" icon="fa-external-link">
+                    <field name="loan_request_count" string="Loan Request" widget="statinfo"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="action_create_loan_request" type="object" string="Create Loan Request" class="oe_highlight"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Loan Details">
+                    <group>
+                        <group>
+                            <field name="loan_type_id"/>
+                            <field name="loan_amount"/>
+                            <field name="loan_term_months"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

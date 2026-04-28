@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loan_disbursement_list" model="ir.ui.view">
+        <field name="name">loan.disbursement.list</field>
+        <field name="model">loan.disbursement</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="loan_id" />
+                <field name="partner_id" />
+                <field name="date" />
+                <field name="journal_id" />
+                <field name="amount" />
+                <field name="state" />
+                <field name="reference" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_loan_disbursement_form" model="ir.ui.view">
+        <field name="name">loan.disbursement.form</field>
+        <field name="model">loan.disbursement</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_post" type="object" string="Post" class="oe_highlight"
+                        invisible="state != 'draft'" />
+                    <button name="action_cancel" type="object" string="Cancel"
+                        invisible="state == 'cancel'" />
+                    <button name="action_print_disbursement" type="object" string="Print Receipt"
+                        class="btn-primary" icon="fa-print" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,cancel" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" />
+                            <field name="loan_id" />
+                            <field name="date" />
+                            <field name="journal_id" />
+                        </group>
+                        <group>
+                            <field name="amount" />
+                            <field name="reference" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_loan_disbursement" model="ir.actions.act_window">
+        <field name="name">Disbursements</field>
+        <field name="res_model">loan.disbursement</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+    </record>
+</odoo>

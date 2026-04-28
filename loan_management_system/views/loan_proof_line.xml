@@ -1,0 +1,44 @@
+<odoo>
+
+    <!-- 🔹 LIST VIEW -->
+    <record id="view_loan_proof_line_list" model="ir.ui.view">
+        <field name="name">loan.proof.line.list</field>
+        <field name="model">loan.proof.line</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="loan_id" />
+                <field name="proof_type_id" />
+                <field name="document_name" />
+                <field name="file_data" widget="binary" />
+                <field name="uploaded_on" />
+            </list>
+        </field>
+    </record>
+
+    <!-- 🔹 FORM VIEW -->
+    <record id="view_loan_proof_line_form" model="ir.ui.view">
+        <field name="name">loan.proof.line.form</field>
+        <field name="model">loan.proof.line</field>
+        <field name="arch" type="xml">
+            <form string="Proof Document">
+                <sheet>
+                    <group>
+                        <field name="loan_id" />
+                        <field name="proof_type_id" />
+                        <field name="document_name" />
+                        <field name="file_data" widget="binary" />
+                        <field name="uploaded_on" readonly="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- 🔹 ACTION -->
+    <record id="action_loan_proof_line" model="ir.actions.act_window">
+        <field name="name">Loan Proof Documents</field>
+        <field name="res_model">loan.proof.line</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

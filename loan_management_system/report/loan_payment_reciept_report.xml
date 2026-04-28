@@ -1,0 +1,197 @@
+<odoo>
+
+    <!-- REPORT ACTION -->
+    <record id="action_report_loan_payment" model="ir.actions.report">
+        <field name="name">Loan Payment Receipt</field>
+        <field name="model">loan.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">loan_management_system.report_loan_payment_receipt</field>
+        <field name="report_file">loan_management_system.report_loan_payment_receipt</field>
+        <field name="print_report_name">'Receipt - %s' % (object.name)</field>
+    </record>
+
+
+    <!-- QWEB TEMPLATE -->
+    <template id="report_loan_payment_receipt">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="doc">
+
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+
+                        <!-- 🔥 HEADER (same style as agreement) -->
+                        <div style="text-align:center; margin-bottom:25px;">
+                            <h1 style="margin:0; color:#1e3a8a;">LOAN PAYMENT RECEIPT</h1>
+                            <p style="font-size:12px; color:#6b7280;">
+                                This receipt confirms payment details of loan installment
+                            </p>
+                        </div>
+
+                        <!-- 🔥 BASIC DETAILS CARD -->
+                        <div
+                            style="border:1px solid #e5e7eb; border-radius:12px; padding:15px; margin-bottom:20px;">
+                            <table style="width:100%; font-size:13px;">
+
+                                <tr>
+                                    <td>
+                                        <strong>Receipt No:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.name or ''" />
+                                    </td>
+
+                                    <td>
+                                        <strong>Loan:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.loan_id.display_name or ''" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Installment:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.installment_id.display_name or ''" />
+                                    </td>
+
+                                    <td>
+                                        <strong>Date:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.payment_date or ''" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Journal:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.journal_id.display_name or ''" />
+                                    </td>
+
+                                    <td>
+                                        <strong>Total Amount:</strong>
+                                    </td>
+                                    <td>
+                                        <span t-esc="doc.amount or 0" />
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                        <!-- 🔥 PAYMENT BREAKDOWN -->
+                        <div style="margin-bottom:25px; font-size:13px; line-height:1.6;">
+
+                            <h3
+                                style="color:#374151; border-bottom:1px solid #e5e7eb; padding-bottom:5px;">
+                                Payment Breakdown
+                            </h3>
+
+                            <table style="width:100%; font-size:13px; margin-top:10px;">
+
+                                <tr>
+                                    <td>
+                                        <strong>Principal</strong>
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.principal_component or 0" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Interest</strong>
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.interest_component or 0" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Fees</strong>
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.fee_component or 0" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Penalty</strong>
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.penalty_component or 0" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <t t-esc="doc.amount or 0" />
+                                        </strong>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                        <!-- 🔥 NOTE BOX -->
+                        <div
+                            style="border:1px dashed #9ca3af; padding:12px; border-radius:10px; margin-bottom:30px;">
+                            <p>
+                                <strong>Note:</strong>
+                                <t t-esc="doc.note or ''" />
+                            </p>
+                        </div>
+
+                        <!-- 🔥 SIGNATURE SECTION (same style) -->
+                        <table style="width:100%; margin-top:40px; text-align:center;">
+
+                            <tr>
+                                <td>
+                                    <div
+                                        style="border-top:1px solid #000; width:200px; margin:auto;"></div>
+                                    <p style="margin-top:5px;">Customer Signature</p>
+                                </td>
+
+                                <td>
+                                    <div
+                                        style="border-top:1px solid #000; width:200px; margin:auto;"></div>
+                                    <p style="margin-top:5px;">Authorized Signatory</p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding-top:15px;">
+                                    Date: __________________
+                                </td>
+                                <td style="padding-top:15px;">
+                                    Date: __________________
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+
+    </template>
+
+</odoo>

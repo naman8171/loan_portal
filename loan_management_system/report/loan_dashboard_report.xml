@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_loan_dashboard" model="ir.actions.report">
+        <field name="name">Loan Dashboard</field>
+        <field name="model">loan.dashboard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">loan_management_system.report_loan_dashboard_template</field>
+        <field name="report_file">loan_management_system.report_loan_dashboard_template</field>
+    </record>
+
+    <template id="report_loan_dashboard_template">
+        <t t-call="web.external_layout">
+            <main>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <h3 style="text-align:center;">Loan Management Dashboard</h3>
+                        <p>
+                            <strong>Approved Amount:</strong>
+                            <span t-field="o.approved_amount" />
+                        </p>
+                        <p>
+                            <strong>Disbursed Amount:</strong>
+                            <span t-field="o.disbursed_amount" />
+                        </p>
+                        <p>
+                            <strong>Repayments:</strong>
+                            <span t-field="o.repayment_amount" />
+                        </p>
+                        <p>
+                            <strong>Interest Amount:</strong>
+                            <span t-field="o.interest_amount" />
+                        </p>
+                        <p>
+                            <strong>Lead Count:</strong>
+                            <span t-field="o.lead_count" />
+                        </p>
+                        <p><strong>Closed/Open:</strong> <span t-field="o.closed_count" /> / <span
+                                t-field="o.open_count" /></p>
+                    </div>
+                </t>
+            </main>
+        </t>
+    </template>
+</odoo>

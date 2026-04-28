@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loan_payment_register_form" model="ir.ui.view">
+        <field name="name">loan.payment.register.form</field>
+        <field name="model">loan.payment.register</field>
+        <field name="arch" type="xml">
+            <form string="Register Payment">
+                <group>
+                    <field name="loan_id" readonly="1"/>
+                    <field name="payment_mode"/>
+                    <field name="installment_id" invisible="payment_mode == 'advance'"/>
+                    <field name="percent" invisible="payment_mode != 'advance'"/>
+                    <field name="payment_date"/>
+                    <field name="journal_id"/>
+                    <field name="amount"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button string="Confirm" name="action_confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

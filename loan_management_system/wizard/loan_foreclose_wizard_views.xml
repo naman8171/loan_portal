@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loan_foreclose_wizard_form" model="ir.ui.view">
+        <field name="name">loan.foreclose.wizard.form</field>
+        <field name="model">loan.foreclose.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Foreclosure">
+                <group>
+                    <field name="loan_id" readonly="1" />
+                    <field name="date" />
+                    <field name="settlement_amount" />
+                    <field name="note" />
+                </group>
+                <footer>
+                    <button string="Confirm Foreclosure" name="action_confirm" type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_loan_foreclose_report_wizard" model="ir.actions.act_window">
+        <field name="name">Loan Foreclose Report</field>
+        <field name="res_model">loan.foreclose.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

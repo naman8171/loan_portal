@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_loan_loan" model="ir.sequence">
+        <field name="name">Loan</field>
+        <field name="code">loan.loan</field>
+        <field name="prefix">LOAN/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_loan_payment" model="ir.sequence">
+        <field name="name">Loan Payment</field>
+        <field name="code">loan.payment</field>
+        <field name="prefix">PAY/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
+
+    <record id="seq_loan_disbursement" model="ir.sequence">
+        <field name="name">Loan Disbursement</field>
+        <field name="code">loan.disbursement</field>
+        <field name="prefix">DISB/%(year)s/</field>
+        <field name="padding">5</field>
+    </record>
+</odoo>

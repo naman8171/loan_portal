@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loan_dashboard_form" model="ir.ui.view">
+        <field name="name">loan.dashboard.form</field>
+        <field name="model">loan.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Loan Management Dashboard" create="true" edit="true">
+                <header>
+                    <button name="action_refresh" type="object" string="Refresh"
+                        class="oe_highlight" />
+                    <button name="action_print_dashboard" type="object" string="Print" invisible="1" />
+                </header>
+                <sheet>
+                    <group string="Filters">
+                        <group>
+                            <field name="user_id" />
+                            <field name="borrower_id" />
+                            <field name="loan_type_id" />
+                            <field name="date_range" />
+                            <field name="top_limit" />
+                        </group>
+                    </group>
+
+                    <group string="KPI Overview" col="4">
+                        <field name="approved_amount" readonly="1" />
+                        <field name="disbursed_amount" readonly="1" />
+                        <field name="repayment_amount" readonly="1" />
+                        <field name="interest_amount" readonly="1" />
+                        <field name="lead_count" readonly="1" />
+                        <field name="processing_fee_total" readonly="1" />
+                        <field name="closed_count" readonly="1" />
+                        <field name="open_count" readonly="1" />
+                        <field name="avg_interest_rate" readonly="1" />
+                    </group>
+
+                    <group string="Installment Status" col="3">
+                        <field name="total_installment" readonly="1" />
+                        <field name="paid_installment" readonly="1" />
+                        <field name="unpaid_installment" readonly="1" />
+                    </group>
+
+                    <notebook>
+                        <page string="Top Partners">
+                            <field name="top_partner_ids" readonly="1" options="{'no_create': True}">
+                                <list>
+                                    <field name="name" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Top Installments">
+                            <field name="top_installment_ids" readonly="1"
+                                options="{'no_create': True}">
+                                <list>
+                                    <field name="loan_id" />
+                                    <field name="sequence" />
+                                    <field name="amount_due" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_loan_dashboard" model="ir.actions.act_window">
+        <field name="name">Loan Dashboard</field>
+        <field name="res_model">loan.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_date_range': 'lifetime'}</field>
+    </record>
+</odoo>

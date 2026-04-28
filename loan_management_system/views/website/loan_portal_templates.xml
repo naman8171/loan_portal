@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_loans" name="My Loans Portal">
+        <t t-call="website.layout">
+            <div class="container my-4">
+                <h2>My Loans</h2>
+                <a href="/loans/apply" class="btn btn-primary mb-3">Apply New Loan</a>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Loan #</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Principal</th>
+                            <th>Outstanding</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="loans" t-as="loan">
+                            <td>
+                                <t t-esc="loan.name" />
+                            </td>
+                            <td>
+                                <t t-esc="loan.loan_type_id.name" />
+                            </td>
+                            <td>
+                                <t t-esc="loan.state" />
+                            </td>
+                            <td>
+                                <span t-field="loan.principal_amount" />
+                            </td>
+                            <td>
+                                <span t-field="loan.outstanding_amount" />
+                            </td>
+                            <td>
+                                <a t-att-href="'/my/loans/%s' % loan.id"
+                                    class="btn btn-sm btn-secondary">Open</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_loan_detail" name="Loan Detail Portal">
+        <t t-call="website.layout">
+            <div class="container my-4">
+                <h2>
+                    <t t-esc="loan.name" />
+                </h2>
+                <p>
+                    <strong>Status:</strong>
+                    <t t-esc="loan.state" />
+                </p>
+                <p>
+                    <strong>Principal:</strong>
+                    <span t-field="loan.principal_amount" />
+                </p>
+                <p>
+                    <strong>Outstanding:</strong>
+                    <span t-field="loan.outstanding_amount" />
+                </p>
+                <h4>Installments</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Due Date</th>
+                            <th>Amount Due</th>
+                            <th>Paid</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="loan.installment_ids" t-as="line">
+                            <td>
+                                <t t-esc="line.sequence" />
+                            </td>
+                            <td>
+                                <span t-field="line.due_date" />
+                            </td>
+                            <td>
+                                <span t-field="line.amount_due" />
+                            </td>
+                            <td>
+                                <span t-field="line.amount_paid" />
+                            </td>
+                            <td>
+                                <t t-esc="line.state" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card p-3 mt-3">
+                    <h5>Sign Agreement</h5>
+                    <form t-att-action="'/my/loans/%s/sign' % loan.id" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <div class="mb-2">
+                            <label>Signer Name</label>
+                            <input type="text" name="signer_name" class="form-control"
+                                t-att-value="request.env.user.name" />
+                        </div>
+                        <div class="mb-2">
+                            <label>Signature Text</label>
+                            <input type="text" name="signature_data" class="form-control"
+                                placeholder="Type your signature" />
+                        </div>
+                        <button class="btn btn-primary" type="submit">Sign</button>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_loan_apply" name="Apply Loan Portal">
+        <t t-call="website.layout">
+            <div class="container my-4">
+                <h2>Apply for Loan</h2>
+                <p class="text-muted">Submit your details to apply for a loan. Every submission is
+                    captured as a lead.</p>
+                <form action="/loans/apply/submit" method="post" class="row g-3">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                    <div class="col-md-6">
+                        <label>Full Name</label>
+                        <input name="full_name" type="text" class="form-control" required="required" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Email</label>
+                        <input name="email" type="email" class="form-control" required="required" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Phone</label>
+                        <input name="phone" type="text" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Loan Type</label>
+                        <select name="loan_type_id" class="form-control" required="required">
+                            <option t-foreach="loan_types" t-as="lt" t-att-value="lt.id">
+                                <t t-esc="lt.name" />
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Principal Amount</label>
+                        <input name="principal_amount" type="number" step="0.01"
+                            class="form-control" required="required" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Term (Months)</label>
+                        <input name="term_months" type="number" class="form-control" value="12"
+                            required="required" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>First Due Date</label>
+                        <input name="first_due_date" type="date" class="form-control"
+                            required="required" />
+                    </div>
+                    <div class="col-12">
+                        <label>Purpose</label>
+                        <textarea name="purpose" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_loan_apply_thank_you" name="Loan Application Thank You">
+        <t t-call="website.layout">
+            <div class="container my-5">
+                <div class="alert alert-success">
+                    <h4 class="alert-heading">Thank you!</h4>
+                    <p>Your loan enquiry has been submitted successfully. Our team will contact you
+                        soon.</p>
+                </div>
+                <a href="/loans/apply" class="btn btn-secondary">Submit Another Enquiry</a>
+                <a href="/my/loans" class="btn btn-primary ms-2">Go to My Loans</a>
+            </div>
+        </t>
+    </template>
+</odoo>

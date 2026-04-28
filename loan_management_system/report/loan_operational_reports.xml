@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_loan_installment" model="ir.actions.report">
+        <field name="name">Loan Installment Report</field>
+        <field name="model">loan.loan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">loan_management_system.report_loan_installment_template</field>
+        <field name="report_file">loan_management_system.report_loan_installment_template</field>
+        <field name="print_report_name">'Installment Report - %s' % (object.name)</field>
+    </record>
+
+    <template id="report_loan_installment_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <!-- 🔥 HEADER -->
+                        <div style="text-align:center; margin-bottom:20px;">
+                            <h2 style="margin-bottom:5px; color:#4f46e5;">Loan Installment Report</h2>
+                            <span style="font-size:12px; color:#6b7280;">Detailed repayment schedule</span>
+                            <!-- <img
+                                t-att-src="'%s/loan_management_system/static/src/img/header.png' % request.httprequest.host_url"
+                                style="width:100%; height:80px;" /> -->
+                        </div>
+
+                        <!-- 🔥 LOAN INFO CARD -->
+                        <div
+                            style="border:1px solid #e5e7eb; border-radius:10px; padding:12px; margin-bottom:20px;">
+                            <p>
+                                <strong>Loan:</strong>
+                                <span t-field="o.name" />
+                            </p>
+                            <p>
+                                <strong>Borrower:</strong>
+                                <span t-field="o.partner_id.name" />
+                            </p>
+                            <p>
+                                <strong>Disbursed Amount:</strong>
+                                <span t-field="o.disbursed_amount" />
+                            </p>
+                        </div>
+
+                        <!-- 🔥 TABLE -->
+                        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                            <thead style="background:#4f46e5; color:white;">
+                                <tr>
+                                    <th style="padding:8px;">#</th>
+                                    <th style="padding:8px;">Due Date</th>
+                                    <th style="padding:8px;">Principal</th>
+                                    <th style="padding:8px;">Interest</th>
+                                    <th style="padding:8px;">Total</th>
+                                    <th style="padding:8px;">Paid</th>
+                                    <!-- <th style="padding:8px;">Status</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.installment_ids" t-as="line"
+                                    style="border-bottom:1px solid #e5e7eb;">
+
+                                    <td style="padding:6px; text-align:center;">
+                                        <span t-field="line.sequence" />
+                                    </td>
+
+                                    <td style="padding:6px;">
+                                        <span t-field="line.due_date" />
+                                    </td>
+
+                                    <td style="padding:6px;">
+                                        <span t-field="line.principal_amount" />
+                                    </td>
+
+                                    <td style="padding:6px;">
+                                        <span t-field="line.interest_amount" />
+                                    </td>
+
+                                    <td style="padding:6px; font-weight:bold;">
+                                        <span t-field="line.amount_due" />
+                                    </td>
+
+                                    <td style="padding:6px;">
+                                        <span t-field="line.amount_paid" />
+                                    </td>
+
+                                    <!-- 🔥 STATUS BADGE -->
+                                    <!-- <td style="padding:6px;">
+                                        <span t-if="line.state == 'paid'"
+                                            style="color:green; font-weight:bold;">Paid</span>
+                                        <span t-elif="line.state == 'draft'"
+                                            style="color:orange; font-weight:bold;">Pending</span>
+                                        <span t-else=""
+                                            style="color:red; font-weight:bold;">
+                                            <t t-esc="line.state" />
+                                        </span>
+                                    </td> -->
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_loan_collection" model="ir.actions.report">
+        <field name="name">Loan Collection Report</field>
+        <field name="model">loan.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">loan_management_system.report_loan_collection_template</field>
+        <field name="report_file">loan_management_system.report_loan_collection_template</field>
+    </record>
+
+    <template id="report_loan_collection_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="p">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <!-- HEADER -->
+                        <div style="text-align:center; margin-bottom:20px;">
+                            <h2 style="color:#059669;">Loan Collection Report</h2>
+                        </div>
+
+                        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                            <thead style="background:#059669; color:white;">
+                                <tr>
+                                    <th style="padding:8px;">Date</th>
+                                    <th style="padding:8px;">Loan</th>
+                                    <th style="padding:8px;">Customer</th>
+                                    <th style="padding:8px;">Journal</th>
+                                    <th style="padding:8px;">Amount</th>
+                                    <th style="padding:8px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid #e5e7eb;">
+                                    <td style="padding:6px;">
+                                        <span t-field="p.payment_date" />
+                                    </td>
+                                    <td style="padding:6px;">
+                                        <span t-field="p.loan_id.name" />
+                                    </td>
+                                    <td style="padding:6px;">
+                                        <span t-field="p.partner_id.name" />
+                                    </td>
+                                    <td style="padding:6px;">
+                                        <span t-field="p.journal_id.name" />
+                                    </td>
+                                    <td style="padding:6px; font-weight:bold;">
+                                        <span t-field="p.amount" />
+                                    </td>
+                                    <td style="padding:6px; color:green; font-weight:bold;">Paid</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

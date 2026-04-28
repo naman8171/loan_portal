@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loan_collection_report_wizard_form" model="ir.ui.view">
+        <field name="name">loan.collection.report.wizard.form</field>
+        <field name="model">loan.collection.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Loan Collection Report">
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button string="Print" type="object" name="action_print" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_loan_collection_report_wizard" model="ir.actions.act_window">
+        <field name="name">Loan Collection Report</field>
+        <field name="res_model">loan.collection.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

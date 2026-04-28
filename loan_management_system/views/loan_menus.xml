@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_loan_inquiry" model="ir.actions.act_window">
+        <field name="name">Inquiry</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+    <record id="action_loan_contacts" model="ir.actions.act_window">
+        <field name="name">Contacts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_rejected_loans" model="ir.actions.act_window">
+        <field name="name">Rejected Loans</field>
+        <field name="res_model">loan.loan</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'rejected')]</field>
+    </record>
+
+    <menuitem id="menu_loan_root" name="Loan Management" sequence="10"
+        groups="loan_management_system.group_loan_user" />
+
+    <menuitem id="menu_loan_dashboard" name="Loan Dashboard" parent="menu_loan_root"
+        action="action_loan_dashboard_client" sequence="10" />
+    <menuitem id="menu_loan_inquiry" name="Inquiry" parent="menu_loan_root"
+        action="action_loan_inquiry" sequence="20" />
+    <menuitem id="menu_loan_contacts" name="Contacts" parent="menu_loan_root"
+        action="action_loan_contacts" sequence="30" />
+
+    <menuitem id="menu_loan_operations" name="Loan" parent="menu_loan_root" sequence="40" />
+    <menuitem id="menu_loan_loans" name="Loans" parent="menu_loan_operations"
+        action="action_loan_loan" sequence="10" />
+    <menuitem id="menu_loan_installments" name="Installments" parent="menu_loan_operations"
+        action="action_loan_installment" sequence="20" />
+    <menuitem id="menu_loan_payments" name="Payments" parent="menu_loan_operations"
+        action="action_loan_payment" sequence="30" />
+    <menuitem id="menu_loan_disbursements" name="Disbursements" parent="menu_loan_operations"
+        action="action_loan_disbursement" sequence="40" />
+    <menuitem id="menu_loan_config_rejected_loans" name="Rejected Loans"
+        parent="menu_loan_operations"
+        action="action_rejected_loans" sequence="90" />
+
+    <menuitem id="menu_loan_terms" name="Terms &amp; Notices" parent="menu_loan_root" sequence="50" />
+    <menuitem id="menu_notice_type" name="Notice Type" parent="menu_loan_terms"
+        action="action_loan_type" sequence="10" />
+    <menuitem id="menu_terms_template" name="Terms Template" parent="menu_loan_terms"
+        action="action_loan_type" sequence="20" />
+
+    <menuitem id="menu_loan_requests" name="LoanRequests" parent="menu_loan_root" sequence="45" />
+
+    <menuitem id="menu_loan_reports" name="Reports" parent="menu_loan_root" sequence="60" />
+    <menuitem id="menu_loan_collection_report" name="Collection Report"
+        parent="menu_loan_reports" action="action_loan_collection_report_wizard" sequence="10" />
+    <menuitem id="menu_loan_disburse_report" name="Disbursement Report"
+        parent="menu_loan_reports" action="action_loan_disbursement_report_wizard" sequence="20" />
+    <menuitem id="menu_loan_foreclose_report" name="Foreclose Report"
+        parent="menu_loan_reports" action="action_loan_foreclose_report_wizard" sequence="30" />
+
+    <menuitem id="menu_loan_config" name="Configuration" parent="menu_loan_root" sequence="70"
+        groups="loan_management_system.group_loan_manager" />
+    <menuitem id="menu_loan_config_type" name="Loan Type" parent="menu_loan_config"
+        action="action_loan_type" sequence="10" />
+
+    <menuitem id="menu_loan_config_proofs"
+        name="Loan Proofs"
+        parent="menu_loan_config"
+        action="action_loan_proofs"
+        sequence="2" />
+
+    <menuitem id="menu_loan_config_borrower_category"
+        name="Borrower Category"
+        parent="menu_loan_config"
+        action="action_borrower_category"
+        sequence="3" />
+
+    <menuitem id="menu_loan_config_eligibility"
+        name="Eligibility Criteria"
+        parent="menu_loan_config"
+        action="action_eligibility"
+        sequence="4" />
+
+    <menuitem id="menu_loan_config_coborrower"
+        name="Co-Borrower Relation"
+        parent="menu_loan_config"
+        action="action_coborrower"
+        sequence="5" />
+
+    <menuitem id="menu_loan_config_terms"
+        name="Terms and Notices"
+        parent="menu_loan_config"
+        sequence="20" />
+
+    <menuitem id="menu_loan_config_agreement_type"
+        name="Agreement Type"
+        parent="menu_loan_config_terms"
+        action="action_agreement_type"
+        sequence="1" />
+
+    <menuitem id="menu_loan_config_notice_type"
+        name="Notice Type"
+        parent="menu_loan_config_terms"
+        action="action_notice_type"
+        sequence="2" />
+
+    <menuitem id="menu_loan_config_terms_template"
+        name="Terms and Notices Template"
+        parent="menu_loan_config_terms"
+        action="action_terms_template"
+        sequence="3" />
+
+    <menuitem id="menu_loan_config_doc_checklist"
+        name="Loan Document Checklist"
+        parent="menu_loan_config"
+        sequence="30" />
+
+    <menuitem id="menu_loan_config_doc_template"
+        name="Document Checklist Template"
+        parent="menu_loan_config_doc_checklist"
+        action="action_doc_template"
+        sequence="1" />
+
+    <menuitem id="menu_loan_config_required_docs"
+        name="Required Documents"
+        parent="menu_loan_config_doc_checklist"
+        action="action_required_docs"
+        sequence="2" />
+
+    <menuitem id="menu_loan_config_doc_type"
+        name="Document Type"
+        parent="menu_loan_config_doc_checklist"
+        action="action_doc_type"
+        sequence="3" />
+
+    <menuitem id="menu_loan_config_installment_reminder"
+        name="Installment Reminder Days"
+        parent="menu_loan_config"
+        sequence="40" />
+
+    <!-- <menuitem id="menu_loan_proof_line"
+        name="Loan Proof Documents"
+        parent="menu_loan_config"
+        action="action_loan_proof_line" /> -->
+
+</odoo>

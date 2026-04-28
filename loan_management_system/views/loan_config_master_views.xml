@@ -1,0 +1,128 @@
+<odoo>
+    <!-- 🔹 Borrower Category -->
+    <record id="view_borrower_category_list" model="ir.ui.view">
+        <field name="name">borrower.category.list</field>
+        <field name="model">loan.borrower.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_borrower_category_form" model="ir.ui.view">
+        <field name="name">borrower.category.form</field>
+        <field name="model">loan.borrower.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="description" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_borrower_category" model="ir.actions.act_window">
+        <field name="name">Borrower Category</field>
+        <field name="res_model">loan.borrower.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Eligibility -->
+    <record id="action_eligibility" model="ir.actions.act_window">
+        <field name="name">Eligibility Criteria</field>
+        <field name="res_model">loan.eligibility.criteria</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Co-Borrower -->
+    <record id="action_coborrower" model="ir.actions.act_window">
+        <field name="name">Co-Borrower Relation</field>
+        <field name="res_model">loan.coborrower.relation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Agreement -->
+    <record id="action_agreement_type" model="ir.actions.act_window">
+        <field name="name">Agreement Type</field>
+        <field name="res_model">loan.agreement.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Notice -->
+    <record id="action_notice_type" model="ir.actions.act_window">
+        <field name="name">Notice Type</field>
+        <field name="res_model">loan.notice.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Terms Template -->
+    <record id="action_terms_template" model="ir.actions.act_window">
+        <field name="name">Terms Template</field>
+        <field name="res_model">loan.terms.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Document Template -->
+    <!-- 🔹 LIST VIEW -->
+    <record id="view_document_checklist_template_list" model="ir.ui.view">
+        <field name="name">loan.document.checklist.template.list</field>
+        <field name="model">loan.document.checklist.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <!-- 🔹 FORM VIEW -->
+    <record id="view_document_checklist_template_form" model="ir.ui.view">
+        <field name="name">loan.document.checklist.template.form</field>
+        <field name="model">loan.document.checklist.template</field>
+        <field name="arch" type="xml">
+            <form string="Document Checklist Template">
+                <sheet>
+
+                    <!-- Name -->
+                    <group>
+                        <field name="name" />
+                    </group>
+
+                    <!-- REQUIRED DOCUMENTS SECTION -->
+                    <group string="Required Documents">
+                        <field name="line_ids">
+                            <list editable="bottom">
+                                <field name="name" />
+                                <field name="document_type_id" />
+                            </list>
+                        </field>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_doc_template" model="ir.actions.act_window">
+        <field name="name">Document Template</field>
+        <field name="res_model">loan.document.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Required Docs -->
+    <record id="action_required_docs" model="ir.actions.act_window">
+        <field name="name">Required Documents</field>
+        <field name="res_model">loan.required.document</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- 🔹 Document Type -->
+    <record id="action_doc_type" model="ir.actions.act_window">
+        <field name="name">Document Type</field>
+        <field name="res_model">loan.document.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
